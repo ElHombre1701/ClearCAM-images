@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#050507" />
+  <title>ClearCAM CVI Story Prototype</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main id="app">
+    <section id="setup" class="screen setup-screen" aria-labelledby="setup-title">
+      <div class="setup-card">
+        <div class="eyebrow">CVI INTERACTIVE STORYBOOK • PROTOTYPE 1</div>
+        <h1 id="setup-title">ClearCAM: Find the Signal</h1>
+        <p class="lede">A short interactive ClearCAM story. Listen or read, find the important person or object, touch it, and continue. No timer. No score. No penalty for taking your time.</p>
+
+        <div class="setup-grid">
+          <fieldset>
+            <legend>Visual presentation</legend>
+            <label class="choice"><input type="radio" name="presentation" value="clear" checked><span><strong>Clear</strong><small>One important target with very little competing visual information.</small></span></label>
+            <label class="choice"><input type="radio" name="presentation" value="simple"><span><strong>Simple Scene</strong><small>A few story elements around the target.</small></span></label>
+            <label class="choice"><input type="radio" name="presentation" value="full"><span><strong>Full Scene</strong><small>Uses a richer scene layout. Full artwork returns after interaction testing.</small></span></label>
+          </fieldset>
+
+          <fieldset>
+            <legend>Reading options</legend>
+            <label class="toggle"><input id="narration" type="checkbox" checked><span><strong>Read aloud</strong><small>Browser voice reads the story after each page opens.</small></span></label>
+            <label class="toggle"><input id="showText" type="checkbox" checked><span><strong>Show story text</strong><small>Keep narration visible at the bottom of the page.</small></span></label>
+            <label class="toggle"><input id="gentlePulse" type="checkbox"><span><strong>Gentle target pulse</strong><small>Optional slow movement for the important target.</small></span></label>
+          </fieldset>
+        </div>
+
+        <div class="setup-actions">
+          <button id="startBtn" type="button" class="primary">START STORY</button>
+          <p class="privacy">Settings stay in this browser. This prototype records no score, diagnosis, or cloud data.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="reader" class="screen reader-screen" hidden aria-live="polite">
+      <header class="reader-topbar">
+        <div class="book-mark">CLEARCAM</div>
+        <div id="pageIndicator" class="page-indicator" aria-label="Story progress">1 of 3</div>
+        <button id="exitBtn" type="button" class="quiet-control" aria-label="Return to caregiver setup">SETUP</button>
+      </header>
+
+      <div id="stage" class="stage" data-mode="clear" data-assist="0">
+        <div id="scene" class="scene"></div>
+        <button id="target" type="button" class="target-hotspot" aria-label="Story target"></button>
+        <div id="focusRing" class="focus-ring" aria-hidden="true"></div>
+      </div>
+
+      <div class="reader-bottom">
+        <button id="assistBtn" type="button" class="assist-button" aria-label="Use ClearCAM to make the target easier to find">
+          <span class="assist-eye" aria-hidden="true">◉</span>
+          <span>CLEARCAM</span>
+        </button>
+
+        <div id="storyPanel" class="story-panel">
+          <p id="storyText"></p>
+          <p id="successText" class="success-text" hidden></p>
+        </div>
+
+        <button id="nextBtn" type="button" class="next-button" hidden>NEXT</button>
+      </div>
+    </section>
+
+    <section id="finish" class="screen finish-screen" hidden>
+      <div class="finish-card">
+        <div class="finish-sigil" aria-hidden="true">◉</div>
+        <h1>Signal found.</h1>
+        <p>You helped Maya notice the noise, find CLEARCAM, and use it to look more closely.</p>
+        <p class="finish-note">Prototype 1 deliberately ends here. The next build expands this same engine instead of changing the interaction rules under the reader.</p>
+        <div class="finish-actions">
+          <button id="replayBtn" type="button" class="primary">READ AGAIN</button>
+          <button id="finishSetupBtn" type="button" class="secondary">CAREGIVER SETUP</button>
+        </div>
+      </div>
+    </section>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
