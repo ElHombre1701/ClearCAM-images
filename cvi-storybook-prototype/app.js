@@ -42,7 +42,6 @@
   const storyPanel = $('storyPanel');
   const storyText = $('storyText');
   const successText = $('successText');
-  const nextBtn = $('nextBtn');
   const pageIndicator = $('pageIndicator');
 
   let current = 0;
@@ -159,7 +158,6 @@
     stage.className = `stage ${settings.presentation} scene-${current}${settings.gentlePulse ? ' pulse' : ''}`;
     target.setAttribute('aria-label', `Find ${scene.targetLabel}`);
     successText.hidden = true;
-    nextBtn.hidden = true;
     target.hidden = false;
     pageIndicator.textContent = `${current + 1} of ${scenes.length}`;
     storyText.textContent = scene.prompt;
@@ -173,18 +171,25 @@
   }
 
   function findTarget() {
-    if (found) return;
+    if (found) {
+      nextScene();
+      return;
+    }
     found = true;
     const scene = scenes[current];
     stopSpeech();
     stage.dataset.assist = '2';
-    successText.textContent = scene.success;
+    const continueText = current >= scenes.length - 1
+      ? ' Touch it again to finish the story.'
+      : ' Touch it again to continue.';
+    successText.textContent = scene.success + continueText;
     successText.hidden = false;
     storyPanel.hidden = false;
-    nextBtn.hidden = false;
-    target.hidden = true;
-    speak(scene.success);
-    nextBtn.focus({preventScroll:true});
+    target.hidden = false;
+    target.setAttribute('aria-label', current >= scenes.length - 1
+      ? 'Touch ' + scene.targetLabel + ' again to finish the story'
+      : 'Touch ' + scene.targetLabel + ' again to continue');
+    speak(scene.success + continueText);
   }
 
   function nextScene() {
@@ -226,7 +231,6 @@
 
   $('startBtn').addEventListener('click', begin);
   target.addEventListener('click', findTarget);
-  nextBtn.addEventListener('click', nextScene);
   $('assistBtn').addEventListener('click', assist);
   $('exitBtn').addEventListener('click', goSetup);
   $('finishSetupBtn').addEventListener('click', goSetup);
@@ -240,10 +244,8 @@
   document.addEventListener('keydown', (event) => {
     if (reader.hidden) return;
     if (event.key === 'Enter' || event.key === ' ') {
-      if (!found) {
-        event.preventDefault();
-        target.click();
-      }
+      event.preventDefault();
+      target.click();
     }
   });
 
