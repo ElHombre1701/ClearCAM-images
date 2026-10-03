@@ -22,7 +22,7 @@ legend{font-weight:800;padding:0 8px}
 .choice input,.toggle input{width:22px;height:22px;margin:2px 0 0;accent-color:var(--accent);flex:0 0 auto}
 .choice span,.toggle span{display:grid;gap:4px}.choice small,.toggle small{color:var(--muted);line-height:1.35}
 .setup-actions{display:flex;align-items:center;gap:20px;flex-wrap:wrap;margin-top:24px}
-.primary,.secondary,.next-button,.assist-button,.quiet-control{border:0;border-radius:999px;font-weight:900;letter-spacing:.04em;cursor:pointer}
+.primary,.secondary,.assist-button,.quiet-control{border:0;border-radius:999px;font-weight:900;letter-spacing:.04em;cursor:pointer}
 .primary{background:var(--accent);color:#111;padding:16px 28px;font-size:1.05rem;min-height:58px}
 .secondary{background:#292938;color:#fff;padding:16px 24px}.privacy{color:#9696a5;font-size:.86rem;max-width:500px}
 .reader-screen{display:grid;grid-template-rows:auto minmax(0,1fr) auto;background:#000;overflow:hidden}
@@ -48,11 +48,11 @@ legend{font-weight:800;padding:0 8px}
 .stage[data-assist="1"] .distractor{opacity:.22;filter:grayscale(1)}.stage[data-assist="2"] .focus-ring{opacity:1}.stage[data-assist="2"] .distractor{opacity:.12}
 .stage[data-assist="3"] .scene>*{opacity:.12!important;filter:grayscale(1) brightness(.4)!important}.stage[data-assist="3"] .scene .target-visual{opacity:1!important;filter:none!important;z-index:3}.stage[data-assist="3"] .focus-ring{opacity:1;border-width:10px;background:rgba(0,0,0,.22)}
 .stage.pulse .target-visual{animation:gentlePulse 2.7s ease-in-out infinite}@keyframes gentlePulse{0%,100%{transform:scale(1)}50%{transform:scale(1.045)}}
-.reader-bottom{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:14px;padding:12px max(14px,env(safe-area-inset-right)) max(12px,env(safe-area-inset-bottom)) max(14px,env(safe-area-inset-left));background:#08080c;border-top:1px solid #272731;min-height:106px;z-index:10}
+.reader-bottom{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;gap:14px;padding:12px max(14px,env(safe-area-inset-right)) max(12px,env(safe-area-inset-bottom)) max(14px,env(safe-area-inset-left));background:#08080c;border-top:1px solid #272731;min-height:106px;z-index:10}
 .assist-button{background:#151522;color:var(--cyan);padding:12px 16px;min-height:54px;display:flex;align-items:center;gap:8px;border:1px solid #33334a}.assist-eye{font-size:1.5rem}
 .story-panel{min-width:0;padding:4px 6px}.story-panel p{margin:0;font-size:clamp(1rem,2.2vw,1.3rem);line-height:1.38}.success-text{color:var(--good);font-weight:750;margin-top:6px!important}
-.next-button{background:var(--accent);color:#111;padding:14px 22px;min-height:54px}.finish-card{text-align:center;max-width:700px}.finish-sigil{font-size:6rem;color:var(--cyan)}.finish-card p{font-size:1.15rem;line-height:1.55;color:#ddd}.finish-note{color:#a7a7b5!important}.finish-actions{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:24px}
-@media (max-width:720px){.setup-grid{grid-template-columns:1fr}.reader-topbar{height:52px}.reader-bottom{grid-template-columns:auto 1fr;grid-template-areas:"assist next" "story story";min-height:128px}.assist-button{grid-area:assist}.story-panel{grid-area:story}.next-button{grid-area:next;justify-self:end}}
+.finish-card{text-align:center;max-width:700px}.finish-sigil{font-size:6rem;color:var(--cyan)}.finish-card p{font-size:1.15rem;line-height:1.55;color:#ddd}.finish-note{color:#a7a7b5!important}.finish-actions{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:24px}
+@media (max-width:720px){.setup-grid{grid-template-columns:1fr}.reader-topbar{height:52px}.reader-bottom{grid-template-columns:auto 1fr;grid-template-areas:"assist story";min-height:110px}.assist-button{grid-area:assist}.story-panel{grid-area:story}}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}}
   </style>
 </head>
@@ -78,7 +78,7 @@ legend{font-weight:800;padding:0 8px}
 <section id="reader" class="screen reader-screen" hidden aria-live="polite">
 <header class="reader-topbar"><div class="book-mark">CLEARCAM</div><div id="pageIndicator" class="page-indicator">1 of 3</div><button id="exitBtn" type="button" class="quiet-control">SETUP</button></header>
 <div id="stage" class="stage" data-mode="clear" data-assist="0"><div id="scene" class="scene"></div><button id="target" type="button" class="target-hotspot" aria-label="Story target"></button><div id="focusRing" class="focus-ring" aria-hidden="true"></div></div>
-<div class="reader-bottom"><button id="assistBtn" type="button" class="assist-button"><span class="assist-eye">◉</span><span>CLEARCAM</span></button><div id="storyPanel" class="story-panel"><p id="storyText"></p><p id="successText" class="success-text" hidden></p></div><button id="nextBtn" type="button" class="next-button" hidden>NEXT</button></div>
+<div class="reader-bottom"><button id="assistBtn" type="button" class="assist-button"><span class="assist-eye">◉</span><span>CLEARCAM</span></button><div id="storyPanel" class="story-panel"><p id="storyText"></p><p id="successText" class="success-text" hidden></p></div></div>
 </section>
 <section id="finish" class="screen finish-screen" hidden><div class="finish-card"><div class="finish-sigil">◉</div><h1>Signal found.</h1><p>You helped Maya notice the noise, find CLEARCAM, and use it to look more closely.</p><p class="finish-note">Prototype 1 deliberately ends here.</p><div class="finish-actions"><button id="replayBtn" type="button" class="primary">READ AGAIN</button><button id="finishSetupBtn" type="button" class="secondary">CAREGIVER SETUP</button></div></div></section>
 </main>
@@ -90,7 +90,7 @@ const scenes=[
 {id:'clearcam-appears',prompt:'Then something weird happened. A quiet new app appeared on Maya’s screen. Find CLEARCAM.',success:'CLEARCAM. No prize wheel. No countdown. Just a quiet new app.',targetLabel:'CLEARCAM app',clearVisual:'app',simpleDistractors:['GAME!','PUPPY!','CHIPS!','WIN!']},
 {id:'magic-screen',prompt:'Maya pointed CLEARCAM at her breakfast. Find the cereal box.',success:'CLEARCAM changes the message: “Mostly sugar. Designed to make you crave more.”',targetLabel:'cereal box',clearVisual:'cereal',simpleDistractors:['JUICE','BOWL','FRUIT','TABLET']}
 ];
-const $=id=>document.getElementById(id),setup=$('setup'),reader=$('reader'),finish=$('finish'),stage=$('stage'),sceneEl=$('scene'),target=$('target'),focusRing=$('focusRing'),storyPanel=$('storyPanel'),storyText=$('storyText'),successText=$('successText'),nextBtn=$('nextBtn'),pageIndicator=$('pageIndicator');
+const $=id=>document.getElementById(id),setup=$('setup'),reader=$('reader'),finish=$('finish'),stage=$('stage'),sceneEl=$('scene'),target=$('target'),focusRing=$('focusRing'),storyPanel=$('storyPanel'),storyText=$('storyText'),successText=$('successText'),pageIndicator=$('pageIndicator');
 let current=0,assistLevel=0,found=false,settings=loadSettings();
 function loadSettings(){try{return Object.assign({presentation:'clear',narration:true,showText:true,gentlePulse:false},JSON.parse(localStorage.getItem('clearcamCviSettings')||'{}'))}catch(_){return{presentation:'clear',narration:true,showText:true,gentlePulse:false}}}
 function saveSettings(){try{localStorage.setItem('clearcamCviSettings',JSON.stringify(settings))}catch(_){}}
@@ -102,13 +102,13 @@ function targetMarkup(type){if(type==='maya')return '<div class="maya-symbol tar
 function placeRing(l,t,w,h){focusRing.style.left=l;focusRing.style.top=t;focusRing.style.width=w;focusRing.style.height=h}
 function renderClear(scene){sceneEl.innerHTML='<div class="clear-object">'+targetMarkup(scene.clearVisual)+'</div>';target.style.left='12%';target.style.top='8%';target.style.width='76%';target.style.height='84%';placeRing('16%','12%','68%','76%')}
 function renderSimple(scene){const d=scene.simpleDistractors.map((txt,i)=>'<div class="distractor d'+(i+1)+'">'+txt+'</div>').join('');sceneEl.innerHTML='<div class="simple-layout">'+d+'<div class="simple-target-wrap">'+targetMarkup(scene.clearVisual)+'</div></div>';target.style.left='20%';target.style.top='12%';target.style.width='60%';target.style.height='76%';placeRing('24%','16%','52%','68%')}
-function renderScene(){const scene=scenes[current];found=false;assistLevel=0;stage.dataset.assist='0';stage.className='stage '+settings.presentation+' scene-'+current+(settings.gentlePulse?' pulse':'');target.setAttribute('aria-label','Find '+scene.targetLabel);successText.hidden=true;nextBtn.hidden=true;target.hidden=false;pageIndicator.textContent=(current+1)+' of '+scenes.length;storyText.textContent=scene.prompt;storyPanel.hidden=!settings.showText;if(settings.presentation==='clear')renderClear(scene);else renderSimple(scene);setTimeout(()=>speak(scene.prompt),180)}
-function findTarget(){if(found)return;found=true;const scene=scenes[current];stopSpeech();stage.dataset.assist='2';successText.textContent=scene.success;successText.hidden=false;storyPanel.hidden=false;nextBtn.hidden=false;target.hidden=true;speak(scene.success)}
+function renderScene(){const scene=scenes[current];found=false;assistLevel=0;stage.dataset.assist='0';stage.className='stage '+settings.presentation+' scene-'+current+(settings.gentlePulse?' pulse':'');target.setAttribute('aria-label','Find '+scene.targetLabel);successText.hidden=true;target.hidden=false;pageIndicator.textContent=(current+1)+' of '+scenes.length;storyText.textContent=scene.prompt;storyPanel.hidden=!settings.showText;if(settings.presentation==='clear')renderClear(scene);else renderSimple(scene);setTimeout(()=>speak(scene.prompt),180)}
+function findTarget(){if(found){nextScene();return}found=true;const scene=scenes[current];stopSpeech();stage.dataset.assist='2';const continueText=current>=scenes.length-1?' Touch it again to finish the story.':' Touch it again to continue.';successText.textContent=scene.success+continueText;successText.hidden=false;storyPanel.hidden=false;target.hidden=false;target.setAttribute('aria-label',current>=scenes.length-1?'Touch '+scene.targetLabel+' again to finish the story':'Touch '+scene.targetLabel+' again to continue');speak(scene.success+continueText)}
 function nextScene(){stopSpeech();if(current>=scenes.length-1){reader.hidden=true;finish.hidden=false;return}current++;renderScene()}
 function assist(){if(found)return;assistLevel=Math.min(3,assistLevel+1);stage.dataset.assist=String(assistLevel);if(assistLevel===1)speak('ClearCAM is reducing the visual noise.');if(assistLevel===2)speak('ClearCAM is marking the area to look at.');if(assistLevel===3)speak('ClearCAM is isolating the important part of the scene.')}
 function begin(){readSetupSettings();current=0;setup.hidden=true;finish.hidden=true;reader.hidden=false;renderScene()}
 function goSetup(){stopSpeech();reader.hidden=true;finish.hidden=true;setup.hidden=false;applySetupSettings()}
-$('startBtn').addEventListener('click',begin);target.addEventListener('click',findTarget);nextBtn.addEventListener('click',nextScene);$('assistBtn').addEventListener('click',assist);$('exitBtn').addEventListener('click',goSetup);$('finishSetupBtn').addEventListener('click',goSetup);$('replayBtn').addEventListener('click',()=>{finish.hidden=true;reader.hidden=false;current=0;renderScene()});applySetupSettings();
+$('startBtn').addEventListener('click',begin);target.addEventListener('click',findTarget);$('assistBtn').addEventListener('click',assist);$('exitBtn').addEventListener('click',goSetup);$('finishSetupBtn').addEventListener('click',goSetup);$('replayBtn').addEventListener('click',()=>{finish.hidden=true;reader.hidden=false;current=0;renderScene()});applySetupSettings();
 })();
 </script>
 </body>
