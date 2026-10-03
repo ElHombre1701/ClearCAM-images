@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#050507" />
+  <title>ClearCAM CVI Story Prototype</title>
+  <style>
+:root{--bg:#050507;--panel:#121219;--panel2:#1a1a24;--text:#f7f7fb;--muted:#b9b9c7;--accent:#ffe45c;--purple:#a478ff;--cyan:#66ecff;--good:#80ffba;--danger:#ff7b95;--radius:22px}
+*{box-sizing:border-box} html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:Arial,Helvetica,sans-serif}
+button,input{font:inherit} button{touch-action:manipulation} [hidden]{display:none!important}.screen{min-height:100dvh}
+.setup-screen,.finish-screen{display:grid;place-items:center;padding:24px}
+.setup-card,.finish-card{width:min(980px,100%);background:linear-gradient(180deg,#15151d,#0c0c11);border:1px solid #343444;border-radius:28px;padding:clamp(24px,4vw,52px);box-shadow:0 24px 80px rgba(0,0,0,.45)}
+.eyebrow{font-weight:800;letter-spacing:.12em;color:var(--cyan);font-size:.78rem}
+h1{font-size:clamp(2rem,5vw,4.7rem);line-height:.95;margin:.35em 0 .25em;letter-spacing:-.04em}
+.lede{font-size:clamp(1rem,2vw,1.3rem);line-height:1.55;color:#dddde7;max-width:780px}
+.setup-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:30px}
+fieldset{border:1px solid #3a3a4a;border-radius:18px;padding:16px;margin:0;background:#0c0c11}
+legend{font-weight:800;padding:0 8px}
+.choice,.toggle{display:flex;gap:12px;padding:14px;border-radius:14px;cursor:pointer;align-items:flex-start}
+.choice:hover,.toggle:hover{background:#171720}
+.choice input,.toggle input{width:22px;height:22px;margin:2px 0 0;accent-color:var(--accent);flex:0 0 auto}
+.choice span,.toggle span{display:grid;gap:4px}.choice small,.toggle small{color:var(--muted);line-height:1.35}
+.setup-actions{display:flex;align-items:center;gap:20px;flex-wrap:wrap;margin-top:24px}
+.primary,.secondary,.next-button,.assist-button,.quiet-control{border:0;border-radius:999px;font-weight:900;letter-spacing:.04em;cursor:pointer}
+.primary{background:var(--accent);color:#111;padding:16px 28px;font-size:1.05rem;min-height:58px}
+.secondary{background:#292938;color:#fff;padding:16px 24px}.privacy{color:#9696a5;font-size:.86rem;max-width:500px}
+.reader-screen{display:grid;grid-template-rows:auto minmax(0,1fr) auto;background:#000;overflow:hidden}
+.reader-topbar{height:58px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:8px 14px;background:#07070a;border-bottom:1px solid #202029;z-index:10}
+.book-mark{font-size:.86rem;font-weight:900;letter-spacing:.16em;color:var(--cyan)}.page-indicator{font-weight:800;color:#d4d4de}
+.quiet-control{justify-self:end;background:#1a1a22;color:#bcbcca;padding:9px 14px;font-size:.78rem}
+.stage{position:relative;min-height:0;overflow:hidden;background:#000;isolation:isolate}
+.scene{position:absolute;inset:0;display:grid;place-items:center;overflow:hidden}
+.scene .clear-object,.scene .simple-layout{width:100%;height:100%;display:grid;place-items:center;position:relative}
+.maya-symbol{width:min(42vw,330px);aspect-ratio:1;border-radius:50%;display:grid;place-items:center;border:6px solid var(--accent);background:radial-gradient(circle at 50% 35%,#6b4b37 0 18%,#191219 19% 30%,#5d3db4 31% 70%,#1b1327 71%);box-shadow:0 0 0 12px rgba(255,228,92,.08)}
+.maya-symbol::after{content:"MAYA";font-size:clamp(1.5rem,6vw,3.4rem);font-weight:1000;background:#000;color:#fff;padding:.18em .55em;border-radius:999px}
+.app-symbol{width:min(50vw,350px);aspect-ratio:1;border-radius:28%;border:6px solid var(--cyan);display:grid;place-items:center;background:radial-gradient(circle at 50% 42%,#26324a,#0a0b11 68%);box-shadow:0 0 46px rgba(102,236,255,.2)}
+.app-symbol .eye{font-size:clamp(5rem,18vw,10rem);color:var(--cyan)}.app-symbol strong{position:absolute;margin-top:55%;font-size:clamp(1.2rem,4vw,2rem);letter-spacing:.1em}
+.cereal-symbol{width:min(42vw,300px);height:min(58vh,430px);border:6px solid var(--accent);border-radius:18px;background:linear-gradient(150deg,#5a185f,#17106c 55%,#281039);display:grid;place-items:center;text-align:center;padding:24px;transform:rotate(1.5deg);box-shadow:0 0 50px rgba(255,228,92,.16)}
+.cereal-symbol .rocket{font-size:clamp(4rem,13vw,8rem)}.cereal-symbol strong{font-size:clamp(1.5rem,5vw,2.8rem);line-height:.9}
+.simple-layout{background:radial-gradient(circle at center,#171421,#050507 65%)}
+.distractor{position:absolute;border:2px solid #4b4361;border-radius:20px;background:#17131e;color:#888;padding:14px;font-weight:800;opacity:.72;transition:opacity .25s,filter .25s}
+.d1{left:5%;top:9%;transform:rotate(-5deg)}.d2{right:6%;top:15%;transform:rotate(4deg)}.d3{left:10%;bottom:12%;transform:rotate(5deg)}.d4{right:8%;bottom:10%;transform:rotate(-3deg)}
+.simple-target-wrap{position:relative;z-index:2;display:grid;place-items:center}
+.target-hotspot{position:absolute;z-index:5;border:0;background:transparent;border-radius:28px;cursor:pointer;outline:none}
+.target-hotspot:focus-visible{outline:7px solid var(--cyan);outline-offset:4px}
+.focus-ring{position:absolute;z-index:4;pointer-events:none;border:7px solid var(--accent);border-radius:32px;opacity:0;box-shadow:0 0 0 8px rgba(255,228,92,.12),0 0 45px rgba(255,228,92,.65);transition:opacity .25s,left .25s,top .25s,width .25s,height .25s}
+.stage[data-assist="1"] .distractor{opacity:.22;filter:grayscale(1)}.stage[data-assist="2"] .focus-ring{opacity:1}.stage[data-assist="2"] .distractor{opacity:.12}
+.stage[data-assist="3"] .scene>*{opacity:.12!important;filter:grayscale(1) brightness(.4)!important}.stage[data-assist="3"] .scene .target-visual{opacity:1!important;filter:none!important;z-index:3}.stage[data-assist="3"] .focus-ring{opacity:1;border-width:10px;background:rgba(0,0,0,.22)}
+.stage.pulse .target-visual{animation:gentlePulse 2.7s ease-in-out infinite}@keyframes gentlePulse{0%,100%{transform:scale(1)}50%{transform:scale(1.045)}}
+.reader-bottom{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:14px;padding:12px max(14px,env(safe-area-inset-right)) max(12px,env(safe-area-inset-bottom)) max(14px,env(safe-area-inset-left));background:#08080c;border-top:1px solid #272731;min-height:106px;z-index:10}
+.assist-button{background:#151522;color:var(--cyan);padding:12px 16px;min-height:54px;display:flex;align-items:center;gap:8px;border:1px solid #33334a}.assist-eye{font-size:1.5rem}
+.story-panel{min-width:0;padding:4px 6px}.story-panel p{margin:0;font-size:clamp(1rem,2.2vw,1.3rem);line-height:1.38}.success-text{color:var(--good);font-weight:750;margin-top:6px!important}
+.next-button{background:var(--accent);color:#111;padding:14px 22px;min-height:54px}.finish-card{text-align:center;max-width:700px}.finish-sigil{font-size:6rem;color:var(--cyan)}.finish-card p{font-size:1.15rem;line-height:1.55;color:#ddd}.finish-note{color:#a7a7b5!important}.finish-actions{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:24px}
+@media (max-width:720px){.setup-grid{grid-template-columns:1fr}.reader-topbar{height:52px}.reader-bottom{grid-template-columns:auto 1fr;grid-template-areas:"assist next" "story story";min-height:128px}.assist-button{grid-area:assist}.story-panel{grid-area:story}.next-button{grid-area:next;justify-self:end}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}}
+  </style>
+</head>
+<body>
+<main id="app">
+<section id="setup" class="screen setup-screen" aria-labelledby="setup-title"><div class="setup-card">
+<div class="eyebrow">CVI INTERACTIVE STORYBOOK • PROTOTYPE 1</div>
+<h1 id="setup-title">ClearCAM: Find the Signal</h1>
+<p class="lede">A short interactive ClearCAM story. Listen or read, find the important person or object, touch it, and continue. No timer. No score. No penalty for taking your time.</p>
+<div class="setup-grid">
+<fieldset><legend>Visual presentation</legend>
+<label class="choice"><input type="radio" name="presentation" value="clear" checked><span><strong>Clear</strong><small>One important target with very little competing visual information.</small></span></label>
+<label class="choice"><input type="radio" name="presentation" value="simple"><span><strong>Simple Scene</strong><small>A few story elements around the target.</small></span></label>
+<label class="choice"><input type="radio" name="presentation" value="full"><span><strong>Full Scene</strong><small>Richer layout for comparison.</small></span></label>
+</fieldset>
+<fieldset><legend>Reading options</legend>
+<label class="toggle"><input id="narration" type="checkbox" checked><span><strong>Read aloud</strong><small>Browser voice reads the story after each page opens.</small></span></label>
+<label class="toggle"><input id="showText" type="checkbox" checked><span><strong>Show story text</strong><small>Keep narration visible at the bottom of the page.</small></span></label>
+<label class="toggle"><input id="gentlePulse" type="checkbox"><span><strong>Gentle target pulse</strong><small>Optional slow movement for the important target.</small></span></label>
+</fieldset></div>
+<div class="setup-actions"><button id="startBtn" type="button" class="primary">START STORY</button><p class="privacy">Settings stay in this browser. This prototype records no score, diagnosis, or cloud data.</p></div>
+</div></section>
+<section id="reader" class="screen reader-screen" hidden aria-live="polite">
+<header class="reader-topbar"><div class="book-mark">CLEARCAM</div><div id="pageIndicator" class="page-indicator">1 of 3</div><button id="exitBtn" type="button" class="quiet-control">SETUP</button></header>
+<div id="stage" class="stage" data-mode="clear" data-assist="0"><div id="scene" class="scene"></div><button id="target" type="button" class="target-hotspot" aria-label="Story target"></button><div id="focusRing" class="focus-ring" aria-hidden="true"></div></div>
+<div class="reader-bottom"><button id="assistBtn" type="button" class="assist-button"><span class="assist-eye">◉</span><span>CLEARCAM</span></button><div id="storyPanel" class="story-panel"><p id="storyText"></p><p id="successText" class="success-text" hidden></p></div><button id="nextBtn" type="button" class="next-button" hidden>NEXT</button></div>
+</section>
+<section id="finish" class="screen finish-screen" hidden><div class="finish-card"><div class="finish-sigil">◉</div><h1>Signal found.</h1><p>You helped Maya notice the noise, find CLEARCAM, and use it to look more closely.</p><p class="finish-note">Prototype 1 deliberately ends here.</p><div class="finish-actions"><button id="replayBtn" type="button" class="primary">READ AGAIN</button><button id="finishSetupBtn" type="button" class="secondary">CAREGIVER SETUP</button></div></div></section>
+</main>
+<script>
+(() => {
+'use strict';
+const scenes=[
+{id:'noisy-world',prompt:'Maya stared at her tablet, but everything felt too loud. Find Maya.',success:'There she is. Maya is surrounded by messages competing for her attention.',targetLabel:'Maya',clearVisual:'maya',simpleDistractors:['BUY NOW','FREE PRIZE','NEW!','LIMITED TIME']},
+{id:'clearcam-appears',prompt:'Then something weird happened. A quiet new app appeared on Maya’s screen. Find CLEARCAM.',success:'CLEARCAM. No prize wheel. No countdown. Just a quiet new app.',targetLabel:'CLEARCAM app',clearVisual:'app',simpleDistractors:['GAME!','PUPPY!','CHIPS!','WIN!']},
+{id:'magic-screen',prompt:'Maya pointed CLEARCAM at her breakfast. Find the cereal box.',success:'CLEARCAM changes the message: “Mostly sugar. Designed to make you crave more.”',targetLabel:'cereal box',clearVisual:'cereal',simpleDistractors:['JUICE','BOWL','FRUIT','TABLET']}
+];
+const $=id=>document.getElementById(id),setup=$('setup'),reader=$('reader'),finish=$('finish'),stage=$('stage'),sceneEl=$('scene'),target=$('target'),focusRing=$('focusRing'),storyPanel=$('storyPanel'),storyText=$('storyText'),successText=$('successText'),nextBtn=$('nextBtn'),pageIndicator=$('pageIndicator');
+let current=0,assistLevel=0,found=false,settings=loadSettings();
+function loadSettings(){try{return Object.assign({presentation:'clear',narration:true,showText:true,gentlePulse:false},JSON.parse(localStorage.getItem('clearcamCviSettings')||'{}'))}catch(_){return{presentation:'clear',narration:true,showText:true,gentlePulse:false}}}
+function saveSettings(){try{localStorage.setItem('clearcamCviSettings',JSON.stringify(settings))}catch(_){}}
+function applySetupSettings(){const radio=document.querySelector('input[name="presentation"][value="'+settings.presentation+'"]');if(radio)radio.checked=true;$('narration').checked=!!settings.narration;$('showText').checked=!!settings.showText;$('gentlePulse').checked=!!settings.gentlePulse}
+function readSetupSettings(){const selected=document.querySelector('input[name="presentation"]:checked');settings={presentation:selected?selected.value:'clear',narration:$('narration').checked,showText:$('showText').checked,gentlePulse:$('gentlePulse').checked};saveSettings()}
+function speak(text){if(!settings.narration||!('speechSynthesis'in window))return;try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.rate=.88;speechSynthesis.speak(u)}catch(_){}}
+function stopSpeech(){try{if('speechSynthesis'in window)speechSynthesis.cancel()}catch(_){}}
+function targetMarkup(type){if(type==='maya')return '<div class="maya-symbol target-visual"></div>';if(type==='app')return '<div class="app-symbol target-visual"><span class="eye">◉</span><strong>CLEARCAM</strong></div>';return '<div class="cereal-symbol target-visual"><span class="rocket">🚀</span><strong>BLAST-O\'S<br><small>SUPER CHOCO STARS</small></strong></div>'}
+function placeRing(l,t,w,h){focusRing.style.left=l;focusRing.style.top=t;focusRing.style.width=w;focusRing.style.height=h}
+function renderClear(scene){sceneEl.innerHTML='<div class="clear-object">'+targetMarkup(scene.clearVisual)+'</div>';target.style.left='12%';target.style.top='8%';target.style.width='76%';target.style.height='84%';placeRing('16%','12%','68%','76%')}
+function renderSimple(scene){const d=scene.simpleDistractors.map((txt,i)=>'<div class="distractor d'+(i+1)+'">'+txt+'</div>').join('');sceneEl.innerHTML='<div class="simple-layout">'+d+'<div class="simple-target-wrap">'+targetMarkup(scene.clearVisual)+'</div></div>';target.style.left='20%';target.style.top='12%';target.style.width='60%';target.style.height='76%';placeRing('24%','16%','52%','68%')}
+function renderScene(){const scene=scenes[current];found=false;assistLevel=0;stage.dataset.assist='0';stage.className='stage '+settings.presentation+' scene-'+current+(settings.gentlePulse?' pulse':'');target.setAttribute('aria-label','Find '+scene.targetLabel);successText.hidden=true;nextBtn.hidden=true;target.hidden=false;pageIndicator.textContent=(current+1)+' of '+scenes.length;storyText.textContent=scene.prompt;storyPanel.hidden=!settings.showText;if(settings.presentation==='clear')renderClear(scene);else renderSimple(scene);setTimeout(()=>speak(scene.prompt),180)}
+function findTarget(){if(found)return;found=true;const scene=scenes[current];stopSpeech();stage.dataset.assist='2';successText.textContent=scene.success;successText.hidden=false;storyPanel.hidden=false;nextBtn.hidden=false;target.hidden=true;speak(scene.success)}
+function nextScene(){stopSpeech();if(current>=scenes.length-1){reader.hidden=true;finish.hidden=false;return}current++;renderScene()}
+function assist(){if(found)return;assistLevel=Math.min(3,assistLevel+1);stage.dataset.assist=String(assistLevel);if(assistLevel===1)speak('ClearCAM is reducing the visual noise.');if(assistLevel===2)speak('ClearCAM is marking the area to look at.');if(assistLevel===3)speak('ClearCAM is isolating the important part of the scene.')}
+function begin(){readSetupSettings();current=0;setup.hidden=true;finish.hidden=true;reader.hidden=false;renderScene()}
+function goSetup(){stopSpeech();reader.hidden=true;finish.hidden=true;setup.hidden=false;applySetupSettings()}
+$('startBtn').addEventListener('click',begin);target.addEventListener('click',findTarget);nextBtn.addEventListener('click',nextScene);$('assistBtn').addEventListener('click',assist);$('exitBtn').addEventListener('click',goSetup);$('finishSetupBtn').addEventListener('click',goSetup);$('replayBtn').addEventListener('click',()=>{finish.hidden=true;reader.hidden=false;current=0;renderScene()});applySetupSettings();
+})();
+</script>
+</body>
+</html>
